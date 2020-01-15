@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <title></title>
+    <meta charset="utf-8">
+
+    <script type="text/javascript">
+        var storeId = "1"; // Your store identifier in RA Trustvox 
+        var productId = "abcd"; // Product identifier in your store, same as RA Trustvox
+
+        const URL = "https://trustvox.com.br/widget/shelf/v2/products_rates?codes[]=" + productId + "&store_id=" + storeId;
+
+        fetch(URL, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }).then(async function(response) {
+            var data = await response.json();
+            console.log(data);
+
+            myJSON = {
+                "@context": "http://schema.org",
+                "@type": "Product",
+                "aggregateRating": {
+                    "@type": "AggregateRating",
+                    "ratingValue": data.products_rates[0].average,
+                    "bestRating": "5",
+                    "worstRating": "0",
+                    "reviewCount": data.products_rates[0].count
+                },
+                "name": "Product name",
+            }
+
+            // Writing JSON
+            var writeTag = document.createElement('script');
+            writeTag.type = "application/ld+json";
+            writeTag.innerHTML = JSON.stringify(myJSON);
+            document.getElementsByTagName('head')[0].appendChild(writeTag);
+
+            // Just example on screen
+            var writeDemo = document.createElement('code');
+            writeDemo.innerHTML = "<strong>JSON-LD Generated:</strong> " + JSON.stringify(myJSON);
+            document.getElementsByTagName('body')[0].prepend(writeDemo);
+        });
+    </script>
+
+    <style type="text/css">
+        body {
+            padding: 10px;
+        }
+        
+        code {
+            padding: 10px;
+            background-color: #E1E1E1;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <p>This is an example to include structured data in SEO through JSON-LD (found inside &lt;head&gt;...&lt;/head&gt;).
+    </p>
+    <p>To validate you can paste the URL of this page into:
+        <a href="https://search.google.com/test/rich-results" target="_blank">Test Rich Results by Google</a>
+    </p>
+
+    <br />
+
+    <p>JSON for Linking Data:
+        <a href="https://json-ld.org/" target="_blank">JSON-LD</a>
+    </p>
+    <p>AggregateRating for Product:
+        <a href="https://schema.org/aggregateRating" target="_blank">Schema.org</a>
+    </p>
+    <p>Data Imported from RA Trustvox API:
+        <a href="https://site.trustvox.com.br/" target="_blank">RA Trustvox</a>
+    </p>
+</body>
+
+</html>
