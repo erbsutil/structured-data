@@ -40,7 +40,7 @@
             document.getElementsByTagName('head')[0].appendChild(writeTag);
 
             // Just example on screen
-            var writeDemo = document.createElement('code');
+            var writeDemo = document.createElement('pre');
             writeDemo.innerHTML = "<strong>JSON-LD Generated:</strong> " + JSON.stringify(myJSON);
             document.getElementsByTagName('body')[0].prepend(writeDemo);
         });
@@ -51,10 +51,12 @@
             padding: 10px;
         }
         
-        code {
+        pre {
             padding: 10px;
             background-color: #E1E1E1;
             border-radius: 10px;
+            white-space: pre-line;
+            line-height: 21px;
         }
     </style>
 </head>
